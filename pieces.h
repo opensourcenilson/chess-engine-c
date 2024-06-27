@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 enum Type {
-  None = 0,
+  NONE = 0,
   PAWN,
   ROOK,
   KNIGHT,
@@ -12,7 +12,7 @@ enum Type {
 enum Colours {
   BLACK,
   WHITE,
-  NONE,
+  BLANK,
 };
 typedef struct  {
   int row;
@@ -36,7 +36,7 @@ const struct Piece BLACK_ROOK =  { ROOK, BLACK ,"BLACK_ROOK"};
 const struct Piece BLACK_KING =  { KING, BLACK, "BLACK_KING"}; 
 const struct Piece BLACK_QUEEN =  { QUEEN, BLACK, "BLACK_QUEEN"}; 
 const struct Piece BLACK_BISHOP =  { BISHOP, BLACK, "BLACK_BISHOP"};
-const struct Piece EMPTY = { None, NONE, "EMPTY" }; 
+const struct Piece EMPTY = { NONE, BLANK, "EMPTY" }; 
 const struct Piece WHITE_PAWN =  { PAWN, WHITE, "WHITE_PAWN" };
 const struct Piece WHITE_KNIGHT =  { KNIGHT, WHITE, "WHITE_KNIGHT" };
 const struct Piece WHITE_ROOK =  { ROOK, WHITE, "WHITE_ROOK"};
