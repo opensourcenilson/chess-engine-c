@@ -44,8 +44,8 @@ const struct Piece WHITE_KING =  { KING, WHITE, "WHITE_KING"};
 const struct Piece WHITE_QUEEN =  { QUEEN, WHITE, "WHITE_QUEEN" }; 
 const struct Piece WHITE_BISHOP =  { BISHOP, WHITE, "WHITE_BISHOP" };
 
-GameBoard movePiece(GameBoard gameBoard, struct Piece piece, Position currentPosition, Position requestedPosition); 
-GameBoard createGameBoard(GameBoard gameBoard); 
+GameBoard movePiece(GameBoard *gameBoard, struct Piece *piece, Position currentPosition, Position requestedPosition); 
+GameBoard createGameBoard(GameBoard *gameBoard); 
 
-int canMove(GameBoard gameBoard, Position requestedPosition, struct Piece piece); 
-void printGameBoard(GameBoard gameBoard); 
+int canMove(GameBoard *gameBoard, Position requestedPosition, struct Piece *piece); 
+void printGameBoard(GameBoard *gameBoard); 
