@@ -4,6 +4,11 @@
 int main() {
     GameBoard chessBoard;
     chessBoard = createGameBoard(&chessBoard);
+    chessBoard.board[4][3] = BLACK_BISHOP; 
+    chessBoard.board[4][3].currentPosition = (Position) { 4, 3 };
+    chessBoard.board[3][2] = WHITE_PAWN; 
+    chessBoard = movePiece(&chessBoard, &chessBoard.board[4][3], chessBoard.board[4][3].currentPosition, (Position) { 2, 1 });
+      
     printGameBoard(&chessBoard);
 }
 
@@ -149,10 +154,57 @@ int canMove(GameBoard *gameBoard, Position requestedPosition, struct Piece *piec
             }
         }
     break;
+    case BISHOP:
+      if (gameBoard->board[requestedPosition.row][requestedPosition.column].Colour == piece->Colour) {
+        return 0;
+      }
+      if (requestedPosition.row - piece->currentPosition.row == requestedPosition.column - piece->currentPosition.column) {
+        if (requestedPosition.row > piece->currentPosition.row) {
+          if (requestedPosition.column > piece->currentPosition.column) {
+            for (int i = piece->currentPosition.row + 1; i < requestedPosition.row; i++) {
+              for (int j = piece->currentPosition.column + 1; j < requestedPosition.column; j++) {
+                if (gameBoard->board[i][j].type != NONE) {
+                  return 0; 
+                }
+              }
+            }
+          } else {
+            for (int i = piece->currentPosition.row + 1; i < requestedPosition.row; i++) {
+              for (int j = piece->currentPosition.column + 1; i < requestedPosition.column; j++) {
+                if (gameBoard->board[i][j].type != NONE) {
+                  return 0; 
+                }
+              }
+            }
+          } 
+        } else {
+          if (requestedPosition.column > piece->currentPosition.column) {
+            for (int i = requestedPosition.row + 1; i < piece->currentPosition.row; i++) {
+              for (int j = piece->currentPosition.column + 1; j < requestedPosition.column; j++) {
+                if (gameBoard->board[i][j].type != NONE) {
+                  return 0;
+                }
+              }
+            }
+          } else {
+            for (int i = requestedPosition.row + 1; i < piece->currentPosition.row; i++) {
+              for (int j = requestedPosition.column + 1; j < piece->currentPosition.column; j++) {
+                if (gameBoard->board[i][j].type != NONE) {
+                  return 0;
+                }
+              }
+            }
+          }
+        }
+        return 1;
+      } else {
+        return 0;
+      }
+    break;
   }    
     return 0;
 }
-
+ 
 void printGameBoard(GameBoard *gameBoard) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -161,4 +213,4 @@ void printGameBoard(GameBoard *gameBoard) {
         printf("\n");
     }
 }
-
+// 3,2 -> 
