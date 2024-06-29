@@ -4,11 +4,6 @@
 int main() {
     GameBoard chessBoard;
     chessBoard = createGameBoard(&chessBoard);
-    chessBoard.board[4][3] = BLACK_BISHOP; 
-    chessBoard.board[4][3].currentPosition = (Position) { 4, 3 };
-    chessBoard.board[3][2] = WHITE_PAWN; 
-    chessBoard = movePiece(&chessBoard, &chessBoard.board[4][3], chessBoard.board[4][3].currentPosition, (Position) { 2, 1 });
-      
     printGameBoard(&chessBoard);
 }
 
@@ -196,6 +191,23 @@ int canMove(GameBoard *gameBoard, Position requestedPosition, struct Piece *piec
             }
           }
         }
+        return 1;
+      } else {
+        return 0;
+      }
+    break;
+    case QUEEN: 
+      if (gameBoard->board[requestedPosition.row][requestedPosition.column].Colour == piece->Colour) {
+        return 0;
+      }
+      struct Piece rook = { ROOK, piece->Colour, "", piece->currentPosition };
+      struct Piece bishop = { BISHOP, piece->Colour, "", piece->currentPosition };
+      struct Piece pawn = { PAWN, piece->Colour, "", piece->currentPosition };
+      if (
+        canMove(gameBoard, requestedPosition, &rook) ||
+        canMove(gameBoard, requestedPosition, &bishop) ||
+        canMove(gameBoard, requestedPosition, &pawn)
+      ) {
         return 1;
       } else {
         return 0;
