@@ -49,3 +49,4 @@ GameBoard createGameBoard(GameBoard *gameBoard);
 
 int canMove(GameBoard *gameBoard, Position requestedPosition, struct Piece *piece); 
 void printGameBoard(GameBoard *gameBoard); 
+int isCheck(GameBoard *gameBoard, struct Piece king);

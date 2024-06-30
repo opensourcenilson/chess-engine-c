@@ -4,8 +4,13 @@
 int main() {
     GameBoard chessBoard;
     chessBoard = createGameBoard(&chessBoard);
-    printGameBoard(&chessBoard);
-}
+    chessBoard.board[3][2] = WHITE_KING;
+    chessBoard.board[3][2].currentPosition = (Position) {3, 2};
+    chessBoard.board[2][3] = BLACK_ROOK;
+    chessBoard.board[2][3].currentPosition = (Position) {2, 3}; 
+//    printf("%d\n", isCheck(&chessBoard, chessBoard.board[3][3]));
+    chessBoard = movePiece(&chessBoard, &chessBoard.board[3][2], chessBoard.board[3][2].currentPosition, (Position) {3, 3});
+    printGameBoard(&chessBoard);}
 
 GameBoard movePiece(GameBoard *gameBoard, struct Piece *piece, Position currentPosition, Position requestedPosition) {
     if (canMove(gameBoard, requestedPosition, piece) == 1) {
@@ -56,6 +61,9 @@ GameBoard createGameBoard(GameBoard *gameBoard) {
 
 int canMove(GameBoard *gameBoard, Position requestedPosition, struct Piece *piece) {
     switch (piece->type) {
+    case NONE:
+      return 0;
+      break;
     case PAWN:
         if (piece->Colour == BLACK) {
             if (piece->currentPosition.row + 1 == requestedPosition.row) {
@@ -213,10 +221,34 @@ int canMove(GameBoard *gameBoard, Position requestedPosition, struct Piece *piec
         return 0;
       }
     break;
-  }    
+    case KING: 
+      if (abs(piece->currentPosition.row - requestedPosition.row) <= 1 && abs(piece->currentPosition.column - requestedPosition.column) <= 1) {
+                if (gameBoard->board[requestedPosition.row][requestedPosition.column].Colour != piece->Colour) {
+                    if (isCheck(gameBoard, (struct Piece) { KING, piece->Colour, "",requestedPosition } )) {
+                      return 0;
+                    }
+                    return 1;
+                }
+            }  
+      break;
+  }   
     return 0;
 }
- 
+
+int isCheck(GameBoard *gameBoard, struct Piece king) {
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      struct Piece threat = gameBoard->board[i][j];
+      if (threat.Colour != king.Colour && threat.type != NONE) {
+        if (canMove(gameBoard, king.currentPosition, &threat)) {
+          return 1;
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 void printGameBoard(GameBoard *gameBoard) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
